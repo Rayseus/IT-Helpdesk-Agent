@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Take-Home — Candidate Instructions</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #24292e;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    background: #fff;
+  }
+  h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 0;
+  }
+  h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+    margin-top: 1.8em;
+  }
+  h3 {
+    font-size: 1.25em;
+    margin-top: 1.5em;
+  }
+  h4 {
+    font-size: 1em;
+    margin-top: 1.3em;
+  }
+  p, li {
+    font-size: 15px;
+  }
+  ul, ol {
+    padding-left: 2em;
+  }
+  li {
+    margin: 0.25em 0;
+  }
+  blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    border-left: 4px solid #0366d6;
+    background: #f1f8ff;
+    color: #24292e;
+  }
+  blockquote p {
+    margin: 0.4em 0;
+  }
+  code {
+    background: #f6f8fa;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 85%;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+  }
+  th, td {
+    border: 1px solid #dfe2e5;
+    padding: 8px 13px;
+    text-align: left;
+  }
+  th {
+    background: #f6f8fa;
+    font-weight: 600;
+  }
+  tr:nth-child(even) {
+    background: #fafbfc;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #eaecef;
+    margin: 2em 0;
+  }
+  strong {
+    font-weight: 600;
+  }
+  @media print {
+    body {
+      max-width: none;
+      padding: 20px;
+      font-size: 12px;
+    }
+    h2 {
+      page-break-before: auto;
+    }
+    blockquote {
+      page-break-inside: avoid;
+    }
+    table {
+      page-break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+<h1>Agentic AI Engineer Take-Home Project</h1>
+<h2>Candidate Instructions — IT Helpdesk Agent</h2>
+<p>Thank you for taking the time to complete this exercise.</p>
+<p>The purpose of this assignment is to understand how you design and build an <strong>agentic AI system for a real user problem</strong>. We are less interested in polished UI or framework-specific tricks, and more interested in your engineering judgment, product thinking, and ability to build a practical, reliable system.</p>
+<h2>Business Problem</h2>
+<p>Traditional IT support forces employees through a frustrating workflow: file a ticket, wait for assignment, wait for a human agent to investigate, go back and forth for details, and eventually get a resolution — often hours or days later. Most issues (password resets, VPN problems, software access) are repetitive and well-documented, yet every one still requires human processing time.</p>
+<p><strong>Your task is to build an AI-powered IT support agent that replaces the traditional ticket system.</strong> Instead of filing a ticket and waiting, employees interact directly with an AI agent that:</p>
+<ul>
+<li>understands their problem through conversation</li>
+<li>investigates using internal knowledge bases, system status, and historical data</li>
+<li>resolves the issue directly when possible (e.g., providing step-by-step instructions, looking up the right information)</li>
+<li>escalates to a human IT specialist only when the issue exceeds the agent's capabilities — handing off a complete context summary so the employee doesn't have to repeat themselves</li>
+</ul>
+<p>The goal is to <strong>eliminate the ticket queue for the majority of common IT issues</strong> and dramatically reduce resolution time from hours to minutes.</p>
+<h2>Product Goal</h2>
+<p>Design and implement a conversational IT support agent that serves as the <strong>employee's first and primary point of contact</strong> for IT issues. The agent should be able to hold a multi-turn conversation, diagnose problems, resolve what it can, and seamlessly escalate what it can't.</p>
+<p>The solution should feel like talking to a knowledgeable IT specialist — not like filling out a form.</p>
+<h2>Core Use Case</h2>
+<p>Build a system where an employee describes their IT problem in natural language, and the agent <strong>drives the resolution process</strong>: asking clarifying questions, pulling information from backend systems, walking the employee through fixes, and escalating only when necessary.</p>
+<p>Your system should handle conversations such as:</p>
+<ul>
+<li><strong>Password / account issues</strong>: "I can't log into Okta. I've tried resetting my password but it still doesn't work. I need access urgently for a client meeting in 30 minutes."</li>
+<li><strong>Software / application issues</strong>: "Salesforce has been loading extremely slowly since yesterday. My teammates in the Chicago office are seeing the same thing."</li>
+<li><strong>Hardware / connectivity</strong>: "My VPN keeps disconnecting every 10–15 minutes. I'm working remotely and can't access internal tools."</li>
+<li><strong>Access / permissions requests</strong>: "I just joined the Data Engineering team and need access to the Snowflake production database and the internal Grafana dashboards."</li>
+<li><strong>Complex / multi-system issues</strong>: "Since the IT maintenance window last Friday, our team's automated data pipeline has been failing. The Jenkins jobs time out and the downstream Tableau reports are stale."</li>
+</ul>
+<h2>Data &amp; Environment</h2>
+<p>You should simulate or mock the backend data sources the agent would query. Suggested sources include:</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Knowledge base</strong></td>
+<td>IT articles, FAQs, runbooks, troubleshooting guides</td>
+<td>Markdown or text documents</td>
+</tr>
+<tr>
+<td><strong>System status</strong></td>
+<td>Current service health, known outages, recent change logs</td>
+<td>Structured data (JSON/API)</td>
+</tr>
+<tr>
+<td><strong>User directory</strong></td>
+<td>Employee info — department, role, location, assigned equipment, access permissions</td>
+<td>Mock user records</td>
+</tr>
+<tr>
+<td><strong>Resolution history</strong></td>
+<td>Past resolved issues for similar problems</td>
+<td>Searchable archive</td>
+</tr>
+<tr>
+<td><strong>Policy / rules</strong></td>
+<td>What the agent is authorized to do vs. what requires human approval</td>
+<td>Structured rules</td>
+</tr>
+</tbody>
+</table>
+<p>You should create realistic synthetic data for at least 2–3 of these sources. The data does not need to be large, but it should be rich enough to demonstrate multi-source reasoning.</p>
+<h2>Problem Framing Requirements</h2>
+<p>Your submission should clearly define:<br />
+- <strong>Who the user is</strong>: the employee with an IT problem (not a helpdesk agent)<br />
+- <strong>What interaction model you chose</strong>: how the employee communicates with the agent (e.g., chat interface, CLI, API)<br />
+- <strong>What the agent can resolve directly</strong> vs. what it escalates to a human<br />
+- <strong>What data sources the agent queries</strong> and how it uses them<br />
+- <strong>What a successful interaction looks like</strong> from the employee's perspective (e.g., problem resolved in under 2 minutes without filing a ticket)<br />
+- <strong>What escalation looks like</strong>: how the agent hands off to a human with full context so the employee doesn't start over</p>
+<h2>What We Are Looking For</h2>
+<p>We would like your submission to demonstrate, as appropriate to your design. Note that this project requires thoughtful design and iterative engineering — a simple one-shot prompt or vibe-coding approach will not produce a sufficient solution:</p>
+<ul>
+<li><strong>Conversational diagnosis</strong>: The agent should ask clarifying questions, not just take a single input. It should drive the conversation toward resolution.</li>
+<li><strong>Multi-step reasoning</strong>: The agent should gather information from multiple sources, form hypotheses, and refine its diagnosis — not just do a single lookup.</li>
+<li><strong>Tool use</strong>: The agent should invoke tools (KB search, status check, user lookup, etc.) as part of its reasoning workflow.</li>
+<li><strong>State / memory</strong>: The agent should track the conversation context, what it has already investigated, and what remains unresolved across multiple turns.</li>
+<li><strong>Resolution vs. escalation judgment</strong>: The agent should know the boundary between what it can handle and what needs a human, and should escalate with a complete summary.</li>
+<li><strong>Reliability</strong>: The agent should handle vague descriptions, missing information, conflicting data, and tool failures gracefully.</li>
+<li><strong>Safety / guardrails</strong>: The agent should not fabricate solutions, should not perform actions beyond its authority, and should be transparent about its confidence level.</li>
+<li><strong>Evaluation</strong>: You should have a deliberate way to assess whether the agent's resolutions are correct and its escalation decisions are appropriate.</li>
+<li><strong>Production thinking</strong>: Consider observability, cost, latency, and maintainability.</li>
+</ul>
+<p>You do <strong>not</strong> need to solve every dimension perfectly. We care more about the quality of your tradeoffs than about maximizing feature count.</p>
+<h2>Deliverables</h2>
+<p>Please submit the following:</p>
+<h3>Code repository</h3>
+<p>A runnable project with clear setup instructions.</p>
+<h3>README</h3>
+<p>Please include:<br />
+- the IT support problem you chose to solve and why<br />
+- why an agentic approach is needed (vs. a simple chatbot, FAQ search, or rule engine)<br />
+- your architecture and design decisions<br />
+- how you handle the resolution vs. escalation boundary<br />
+- the data sources you simulated and why<br />
+- your assumptions and tradeoffs<br />
+- how to run the system<br />
+- how you evaluated it<br />
+- what you would improve with more time</p>
+<h3>Demo</h3>
+<p>Be prepared to walk us through your solution during the interview. A live demo is preferred, but a recorded demo is acceptable if needed. <strong>We will type in new IT problems during the interview to see how the agent handles them.</strong></p>
+<h3>Optional design note</h3>
+<p>You may include a short note on how you would productionize this — integration with Slack/Teams for the chat interface, SSO for user identification, audit logging, handoff to ServiceNow for escalated issues, etc.</p>
+<h2>Technical Guidance</h2>
+<ul>
+<li>You may use any frameworks, libraries, models, or APIs you prefer</li>
+<li>The solution should be runnable locally</li>
+<li>Keep external dependencies reasonable and clearly documented</li>
+<li>Focus on engineering clarity rather than building the broadest possible feature set</li>
+</ul>
+<h2>Interview Session</h2>
+<p>During the interview, we will ask you to walk through:<br />
+- the IT support problem and scope you chose<br />
+- your architecture and implementation<br />
+- a live demo where we type in IT problems and converse with the agent<br />
+- how the agent handles ambiguous, incomplete, or out-of-scope requests<br />
+- how escalation works and what context the agent preserves for the human<br />
+- evaluation results and failure cases<br />
+- how you would improve and productionize the system</p>
+<h2>What Good Submissions Usually Show</h2>
+<p>We are not looking for an overly polished product. A well-scoped, thoughtful solution is better than a large but fragile one.</p>
+<p>Strong submissions typically:<br />
+- frame a clear employee-facing IT support experience<br />
+- design a conversational diagnostic workflow (not just a single LLM call)<br />
+- show the agent asking clarifying questions and driving toward resolution<br />
+- orchestrate multiple tools meaningfully (search KB, check status, look up user, etc.)<br />
+- demonstrate clear resolution vs. escalation judgment<br />
+- handle edge cases — vague descriptions, missing articles, conflicting information<br />
+- evaluate with concrete test conversations and expected outcomes<br />
+- explain tradeoffs candidly, including what was scoped out and why</p>
+<p>We are excited to see how you approach the problem!</p>
+</body>
+</html>
