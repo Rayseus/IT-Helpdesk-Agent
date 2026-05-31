@@ -17,11 +17,11 @@ build/
 htmlcov/
 .coverage
 
-# IDE / Agent (may contain credentials)
+# IDE / Agent (local only — do not publish)
 .cursor/
-!.cursor/rules/
-!.cursor/skills/
-./specify
+
+# Spec Kit / local tooling
+.specify/
 
 # OS
 .DS_Store
@@ -31,6 +31,6 @@ Thumbs.db
 *.log
 logs/
 
-# Doc
-./Doc
-./agentic_ai_take_home_candidate_instructions_v20260421_01.html
+# Local docs and take-home instructions (not for public repo)
+docs/
+agentic_ai_take_home_candidate_instructions_v20260421_01.html
