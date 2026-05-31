@@ -4,5 +4,16 @@ alwaysApply: true
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read the current plan at
+`specs/001-it-helpdesk-agent/plan.md`.
+
+Key references:
+- Spec: `specs/001-it-helpdesk-agent/spec.md`
+- Research: `specs/001-it-helpdesk-agent/research.md`
+- Data model: `specs/001-it-helpdesk-agent/data-model.md`
+- Quickstart: `specs/001-it-helpdesk-agent/quickstart.md`
+- Tool contracts: `specs/001-it-helpdesk-agent/contracts/agent-tools.md`
+- CLI/API contracts: `specs/001-it-helpdesk-agent/contracts/cli-api.md`
+
+Tech stack: Python 3.12, LangGraph, LangChain, Typer CLI, file-based mock data.
 <!-- SPECKIT END -->

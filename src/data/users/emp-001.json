@@ -1,0 +1,13 @@
+{
+  "id": "emp-001",
+  "name": "Jane Doe",
+  "email": "jane.doe@company.com",
+  "department": "Sales",
+  "role": "Account Executive",
+  "location": "Chicago",
+  "manager_id": "mgr-101",
+  "equipment": ["MacBook Pro 14", "Dell Dock WD19"],
+  "permissions": ["okta", "salesforce", "slack"],
+  "account_status": "active",
+  "lock_reason": null
+}

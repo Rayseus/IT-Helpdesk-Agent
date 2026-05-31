@@ -1,0 +1,16 @@
+{
+  "id": "emp-002",
+  "name": "Alex Chen",
+  "email": "alex.chen@company.com",
+  "department": "Data Engineering",
+  "role": "Data Engineer",
+  "location": "Remote",
+  "manager_id": "mgr-205",
+  "manager_name": "Pat Rivera",
+  "hire_date": "2026-05-15",
+  "onboarding_status": "week_2_new_hire",
+  "equipment": ["MacBook Pro 16", "YubiKey"],
+  "permissions": ["okta", "slack", "snowflake-dev"],
+  "account_status": "active",
+  "lock_reason": null
+}

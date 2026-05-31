@@ -1,0 +1,9 @@
+{
+  "id": "hist-042",
+  "problem_summary": "Salesforce slow loading in Chicago office",
+  "symptoms": ["slow", "timeout", "loading", "salesforce", "chicago"],
+  "systems_involved": ["salesforce"],
+  "resolution": "Known CDN issue in US Midwest affecting Chicago; platform team resolved within 4 hours — no per-user action required",
+  "resolved_at": "2026-03-15T14:00:00Z",
+  "category": "software"
+}

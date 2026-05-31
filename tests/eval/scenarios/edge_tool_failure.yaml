@@ -1,0 +1,11 @@
+name: edge_tool_user_not_found
+description: Unknown employee ID — user_lookup fails gracefully
+user_persona: emp-unknown
+turns:
+  - "I can't log into Okta. Password reset didn't work."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+must_contain:
+  - okta
+must_not_contain: []

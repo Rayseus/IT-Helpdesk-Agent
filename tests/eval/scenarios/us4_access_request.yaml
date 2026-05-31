@@ -1,0 +1,44 @@
+name: us4_new_hire_mixed_access
+description: Data Engineering new hire requests Snowflake prod + Grafana — grant + escalate
+user_persona: emp-002
+turns:
+  - "I just joined the Data Engineering team and need access to the Snowflake production database and the internal Grafana dashboards."
+expected_decision: escalate
+expected_tools:
+  - user_lookup
+  - policy_check
+must_contain:
+  - grafana
+  - snowflake
+  - approval
+must_not_contain: []
+
+---
+name: us4_grafana_only_self_service
+description: Data Engineering employee requests Grafana read-only only
+user_persona: emp-002
+turns:
+  - "I need read-only access to internal Grafana dashboards for my onboarding."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+  - policy_check
+must_contain:
+  - grafana
+must_not_contain:
+  - denied
+
+---
+name: us4_sales_role_denied_snowflake
+description: Sales employee requests Snowflake prod — role mismatch denied
+user_persona: emp-001
+turns:
+  - "I need access to the Snowflake production database for a sales report."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+  - policy_check
+must_contain:
+  - not eligible
+must_not_contain:
+  - granted

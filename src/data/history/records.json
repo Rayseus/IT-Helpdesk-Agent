@@ -1,0 +1,49 @@
+{
+  "records": [
+    {
+      "id": "hist-042",
+      "problem_summary": "Salesforce slow loading in Chicago office",
+      "symptoms": ["slow", "timeout", "loading"],
+      "systems_involved": ["salesforce"],
+      "resolution": "Known CDN issue in US Midwest; resolved after 4 hours without user action",
+      "resolved_at": "2026-03-15T14:00:00Z",
+      "category": "software"
+    },
+    {
+      "id": "hist-018",
+      "problem_summary": "VPN disconnects every 15 minutes for remote workers",
+      "symptoms": ["vpn", "disconnect", "remote"],
+      "systems_involved": ["vpn-gateway"],
+      "resolution": "Gateway maintenance caused drops; resolved after maintenance window",
+      "resolved_at": "2026-02-10T06:30:00Z",
+      "category": "vpn"
+    },
+    {
+      "id": "hist-007",
+      "problem_summary": "Okta lockout after failed MFA attempts",
+      "symptoms": ["okta", "locked", "mfa", "password"],
+      "systems_involved": ["okta"],
+      "resolution": "IT Helpdesk reset MFA binding and unlocked account",
+      "resolved_at": "2026-04-22T11:00:00Z",
+      "category": "password"
+    },
+    {
+      "id": "hist-055",
+      "problem_summary": "Jenkins pipeline timeouts after maintenance window",
+      "symptoms": ["jenkins", "timeout", "pipeline", "failure"],
+      "systems_involved": ["jenkins", "tableau"],
+      "resolution": "Data Platform fixed network ACLs; pipelines restored next day",
+      "resolved_at": "2026-05-24T16:00:00Z",
+      "category": "complex"
+    },
+    {
+      "id": "hist-033",
+      "problem_summary": "Snowflake prod access request for new hire",
+      "symptoms": ["snowflake", "access", "production"],
+      "systems_involved": ["snowflake"],
+      "resolution": "Manager approval obtained; Data Platform provisioned read-only role",
+      "resolved_at": "2026-01-08T09:00:00Z",
+      "category": "access"
+    }
+  ]
+}

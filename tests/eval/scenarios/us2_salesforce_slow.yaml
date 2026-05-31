@@ -1,0 +1,39 @@
+name: us2_salesforce_chicago_outage
+description: Salesforce slow with teammates in Chicago — regional degraded status
+user_persona: emp-001
+turns:
+  - "Salesforce has been loading extremely slowly since yesterday. My teammates in the Chicago office are seeing the same thing."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+  - status_check
+must_contain:
+  - degraded
+must_not_contain:
+  - escalate
+
+---
+name: us2_salesforce_clarify
+description: Vague slow report without team/personal scope
+user_persona: emp-001
+turns:
+  - "Salesforce is really slow today."
+expected_decision: clarify
+expected_tools: []
+must_contain:
+  - teammates
+must_not_contain: []
+
+---
+name: us2_salesforce_personal
+description: Only user affected — personal troubleshooting
+user_persona: emp-001
+turns:
+  - "Salesforce is extremely slow but only on my laptop. Only me — teammates are fine."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+  - status_check
+must_contain:
+  - browser
+must_not_contain: []

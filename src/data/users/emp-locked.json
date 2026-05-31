@@ -1,0 +1,13 @@
+{
+  "id": "emp-locked",
+  "name": "Sam Rivera",
+  "email": "sam.rivera@company.com",
+  "department": "Marketing",
+  "role": "Marketing Manager",
+  "location": "Chicago",
+  "manager_id": "mgr-110",
+  "equipment": ["MacBook Air"],
+  "permissions": ["okta", "slack"],
+  "account_status": "locked",
+  "lock_reason": "too_many_mfa_attempts after password reset"
+}

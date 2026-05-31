@@ -1,0 +1,28 @@
+name: us3_vpn_disconnect_maintenance
+description: VPN disconnect every 15 min during gateway maintenance window
+user_persona: emp-001
+turns:
+  - "My VPN keeps disconnecting every 15 minutes. I can't access internal tools while working remotely."
+expected_decision: resolve
+expected_tools:
+  - kb_search
+  - status_check
+  - user_lookup
+must_contain:
+  - maintenance
+must_not_contain:
+  - escalate
+
+---
+name: us3_vpn_runbook_steps
+description: VPN disconnect with GlobalProtect — should reference troubleshooting steps
+user_persona: emp-001
+turns:
+  - "GlobalProtect VPN disconnects frequently when I'm on Wi-Fi at home."
+expected_decision: resolve
+expected_tools:
+  - kb_search
+  - status_check
+must_contain:
+  - globalprotect
+must_not_contain: []

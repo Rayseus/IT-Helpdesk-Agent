@@ -1,0 +1,29 @@
+name: us1_okta_login
+description: Employee cannot log into Okta after password reset
+user_persona: emp-001
+turns:
+  - "I can't log into Okta. I've tried resetting my password but it still doesn't work. I need access urgently for a client meeting in 30 minutes."
+expected_decision: resolve
+expected_tools:
+  - user_lookup
+  - kb_search
+  - status_check
+must_contain:
+  - reset
+must_not_contain:
+  - kb-fake-article
+
+---
+name: us1_okta_locked
+description: Locked account after MFA failures
+user_persona: emp-locked
+turns:
+  - "I can't log into Okta after resetting my password. I need access urgently for a meeting in 30 minutes."
+expected_decision: escalate
+expected_tools:
+  - user_lookup
+  - kb_search
+  - status_check
+must_contain:
+  - locked
+must_not_contain: []

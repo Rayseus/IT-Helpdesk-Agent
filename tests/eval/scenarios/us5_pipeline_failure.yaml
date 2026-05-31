@@ -1,0 +1,28 @@
+name: us5_pipeline_failure_main
+description: Pipeline failure after maintenance — Jenkins timeout + Tableau stale
+user_persona: emp-002
+turns:
+  - "Our data pipeline failed after the IT maintenance window last week. Jenkins jobs are timing out and Tableau dashboards are showing stale data."
+expected_decision: escalate
+expected_tools:
+  - status_check
+  - history_search
+must_contain:
+  - data platform
+must_not_contain: []
+
+---
+name: us5_jenkins_tableau_escalate
+description: Multi-system failure requires platform team
+user_persona: emp-002
+turns:
+  - "Jenkins builds keep failing with timeouts since maintenance. Tableau reports haven't refreshed in two days."
+expected_decision: escalate
+expected_tools:
+  - status_check
+  - history_search
+must_contain:
+  - jenkins
+  - tableau
+must_not_contain:
+  - try these steps

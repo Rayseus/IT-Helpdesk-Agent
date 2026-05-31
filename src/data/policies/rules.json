@@ -1,0 +1,119 @@
+{
+  "rules": [
+    {
+      "id": "pol-001",
+      "action": "reset_okta_password",
+      "agent_can_execute": false,
+      "approval_required": "none",
+      "conditions": ["Employee must use self-service portal"],
+      "description": "Password reset is self-service via Okta; agent guides steps only",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-002",
+      "action": "unlock_okta_mfa",
+      "agent_can_execute": false,
+      "approval_required": "it_admin",
+      "conditions": ["Account locked due to MFA failures"],
+      "description": "MFA unlock requires IT Helpdesk intervention",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-003",
+      "action": "grant_grafana_readonly",
+      "agent_can_execute": true,
+      "approval_required": "none",
+      "conditions": [
+        "Department in Engineering, Data Engineering, or SRE",
+        "Read-only dashboard access only"
+      ],
+      "description": "Grafana read-only access can be self-service for eligible engineering roles",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-004",
+      "action": "grant_snowflake_prod",
+      "agent_can_execute": false,
+      "approval_required": "manager",
+      "conditions": [
+        "Must be Data Engineering or approved analyst",
+        "Manager approval required",
+        "Business justification and data scope required"
+      ],
+      "description": "Production Snowflake access requires manager approval — agent cannot grant directly",
+      "recommended_escalation_team": "Data Platform"
+    },
+    {
+      "id": "pol-005",
+      "action": "grant_snowflake_dev",
+      "agent_can_execute": true,
+      "approval_required": "none",
+      "conditions": ["Must be Data Engineering role"],
+      "description": "Dev/staging Snowflake can be self-service for Data Engineering",
+      "recommended_escalation_team": "Data Platform"
+    },
+    {
+      "id": "pol-006",
+      "action": "grant_salesforce_access",
+      "agent_can_execute": false,
+      "approval_required": "manager",
+      "conditions": ["Role must require Salesforce per job function"],
+      "description": "Salesforce license assignment requires manager approval",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-007",
+      "action": "install_software",
+      "agent_can_execute": true,
+      "approval_required": "none",
+      "conditions": ["Software in approved catalog", "Standard employee device"],
+      "description": "Approved software via Software Center is self-service",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-008",
+      "action": "modify_production_permissions",
+      "agent_can_execute": false,
+      "approval_required": "security",
+      "conditions": ["Any production system write access"],
+      "description": "Production permission changes require Security team approval",
+      "recommended_escalation_team": "Security"
+    },
+    {
+      "id": "pol-009",
+      "action": "vpn_troubleshoot",
+      "agent_can_execute": true,
+      "approval_required": "none",
+      "conditions": ["Standard troubleshooting steps only"],
+      "description": "Agent can guide VPN troubleshooting from KB",
+      "recommended_escalation_team": "IT Helpdesk"
+    },
+    {
+      "id": "pol-010",
+      "action": "escalate_pipeline_failure",
+      "agent_can_execute": false,
+      "approval_required": "none",
+      "conditions": ["Multi-system data pipeline issues"],
+      "description": "Complex pipeline failures must escalate to Data Platform",
+      "recommended_escalation_team": "Data Platform"
+    },
+    {
+      "id": "pol-011",
+      "action": "grant_admin_access",
+      "agent_can_execute": false,
+      "approval_required": "security",
+      "conditions": ["Any admin or root access request"],
+      "description": "Admin access is never granted by agent",
+      "recommended_escalation_team": "Security"
+    },
+    {
+      "id": "pol-012",
+      "action": "check_system_status",
+      "agent_can_execute": true,
+      "approval_required": "none",
+      "conditions": [],
+      "description": "Agent may always query system status",
+      "recommended_escalation_team": "IT Helpdesk"
+    }
+  ]
+}

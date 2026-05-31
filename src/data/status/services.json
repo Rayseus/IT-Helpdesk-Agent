@@ -1,0 +1,84 @@
+{
+  "services": [
+    {
+      "service_id": "okta",
+      "name": "Okta SSO",
+      "health": "healthy",
+      "affected_regions": [],
+      "description": "All regions operating normally",
+      "eta_resolution": null,
+      "recent_changes": [
+        {
+          "timestamp": "2026-05-20T02:00:00Z",
+          "description": "Routine certificate rotation",
+          "impact": "No user impact expected"
+        }
+      ]
+    },
+    {
+      "service_id": "salesforce",
+      "name": "Salesforce CRM",
+      "health": "degraded",
+      "affected_regions": ["Chicago", "New York"],
+      "description": "Intermittent latency and slow page loads since 2026-05-27",
+      "eta_resolution": "2026-05-28T18:00:00Z",
+      "recent_changes": [
+        {
+          "timestamp": "2026-05-27T08:00:00Z",
+          "description": "CDN routing issue in US Midwest",
+          "impact": "Elevated load times for Chicago and New York offices"
+        }
+      ]
+    },
+    {
+      "service_id": "vpn-gateway",
+      "name": "GlobalProtect VPN Gateway",
+      "health": "maintenance",
+      "affected_regions": ["Global"],
+      "description": "Scheduled maintenance window — brief disconnects possible",
+      "eta_resolution": "2026-05-28T06:00:00Z",
+      "recent_changes": [
+        {
+          "timestamp": "2026-05-28T01:00:00Z",
+          "description": "Gateway firmware upgrade",
+          "impact": "Sessions may drop every 10-15 minutes during window"
+        }
+      ]
+    },
+    {
+      "service_id": "jenkins",
+      "name": "Jenkins CI/CD",
+      "health": "degraded",
+      "affected_regions": ["Global"],
+      "description": "Build jobs timing out (30min+ limit) after IT maintenance window on 2026-05-23",
+      "eta_resolution": "2026-05-29T12:00:00Z",
+      "recent_changes": [
+        {
+          "timestamp": "2026-05-23T22:00:00Z",
+          "description": "Network ACL changes during maintenance",
+          "impact": "Data pipeline Jenkins jobs failing with timeout errors"
+        },
+        {
+          "timestamp": "2026-05-24T09:00:00Z",
+          "description": "Increased agent connection timeouts observed",
+          "impact": "All scheduled pipeline builds affected globally"
+        }
+      ]
+    },
+    {
+      "service_id": "tableau",
+      "name": "Tableau Server",
+      "health": "degraded",
+      "affected_regions": ["Global"],
+      "description": "Downstream reports stale — refresh jobs blocked by pipeline failures since 2026-05-23",
+      "eta_resolution": null,
+      "recent_changes": [
+        {
+          "timestamp": "2026-05-24T06:00:00Z",
+          "description": "Refresh jobs not receiving data from pipeline",
+          "impact": "Tableau dashboards show data as of 2026-05-23"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "records": [
+    {
+      "id": "hist-055",
+      "problem_summary": "Jenkins pipeline timeouts after maintenance window",
+      "symptoms": ["jenkins", "timeout", "pipeline", "failure", "tableau", "stale"],
+      "systems_involved": ["jenkins", "tableau"],
+      "resolution": "Data Platform fixed network ACLs applied during maintenance; Jenkins jobs restored within 24h; Tableau refresh resumed after pipeline recovery",
+      "resolved_at": "2026-05-24T16:00:00Z",
+      "category": "complex",
+      "maintenance_trigger": "2026-05-23T22:00:00Z",
+      "notes": "Network ACL changes during IT maintenance blocked Jenkins agents from data sources"
+    },
+    {
+      "id": "hist-056",
+      "problem_summary": "Tableau stale dashboards after upstream pipeline failure",
+      "symptoms": ["tableau", "stale", "pipeline", "data"],
+      "systems_involved": ["tableau", "jenkins"],
+      "resolution": "Resolved automatically once Jenkins pipeline jobs completed successfully",
+      "resolved_at": "2026-05-25T08:00:00Z",
+      "category": "complex",
+      "notes": "Downstream impact — fix root cause in Jenkins first"
+    }
+  ]
+}
