@@ -45,6 +45,28 @@ VAGUE_PATTERNS = [
     r"it'?s broken",
 ]
 
+META_PATTERNS = [
+    r"^who are you\b",
+    r"^what can you do\b",
+    r"^what do you do\b",
+    r"^who am i talking to\b",
+    r"^introduce yourself\b",
+    r"^你是谁",
+    r"^你能做什么",
+    r"^你是做什么的",
+    r"^(hi|hello|hey)\s*[!.]?$",
+]
+
+INTRO_REPLY = (
+    "I'm your company's IT Helpdesk Agent. I help employees with:\n"
+    "- Password and account issues (Okta, MFA, lockouts)\n"
+    "- VPN and remote connectivity (GlobalProtect)\n"
+    "- Software and application performance\n"
+    "- Access and permission requests\n"
+    "- Complex multi-system issues (with escalation when needed)\n\n"
+    "Please describe the IT issue you're experiencing, and I'll investigate."
+)
+
 CATEGORY_KEYWORDS: dict[str, list[str]] = {
     "password": ["okta", "password", "login", "mfa", "locked", "account"],
     "software": ["salesforce", "slow", "loading", "application", "app"],
@@ -87,6 +109,14 @@ def _is_vague(text: str) -> bool:
     return len(lower.split()) <= 4 and lower in {"help", "help me", "help!", "something is wrong"}
 
 
+def _is_meta_intent(text: str) -> bool:
+    """Out-of-scope identity or capability questions (not IT diagnosis)."""
+    if _detect_category(text):
+        return False
+    lower = text.lower().strip()
+    return any(re.search(p, lower) for p in META_PATTERNS)
+
+
 def intake_node(state: GraphState) -> dict[str, Any]:
     user_msg = state.get("last_user_message", "")
     updates: dict[str, Any] = {
@@ -104,7 +134,12 @@ def intake_node(state: GraphState) -> dict[str, Any]:
 
     updates["diagnosis"] = diagnosis
 
-    if _is_vague(user_msg):
+    if _is_meta_intent(user_msg):
+        diagnosis["category"] = "meta"
+        updates["diagnosis"] = diagnosis
+        updates["decision"] = Decision.RESOLVE.value
+        updates["assistant_reply"] = INTRO_REPLY
+    elif _is_vague(user_msg):
         updates["decision"] = Decision.CLARIFY.value
         updates["pending_questions"] = [
             "What exactly happens when you try to use it?",
@@ -265,7 +300,7 @@ def respond_node(state: GraphState) -> dict[str, Any]:
     diagnosis = state.get("diagnosis") or {}
 
     # Deterministic category paths — skip LLM polish
-    if diagnosis.get("category") not in {"password", "software", "vpn", "access"}:
+    if diagnosis.get("category") not in {"password", "software", "vpn", "access", "meta"}:
         llm = get_llm()
         lc_messages = [
             SystemMessage(content=f"{SYSTEM_PROMPT}\n\n{RESPOND_PROMPT}"),
@@ -323,6 +358,8 @@ def route_after_intake(state: GraphState) -> str:
         return "clarify"
     diagnosis = state.get("diagnosis") or {}
     category = diagnosis.get("category")
+    if category == "meta":
+        return "respond"
     if category == "password":
         return "investigate_password"
     if category == "software":

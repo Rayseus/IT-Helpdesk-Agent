@@ -3,7 +3,7 @@
 import pytest
 
 from src.agent.escalation import build_escalation_package, format_escalation_display
-from src.agent.nodes import _detect_category, _is_vague, route_after_intake
+from src.agent.nodes import INTRO_REPLY, _detect_category, _is_meta_intent, _is_vague, route_after_intake
 from src.agent.state import make_initial_state
 from src.models.schemas import Decision
 
@@ -22,6 +22,26 @@ def test_detect_category_vpn():
 def test_is_vague():
     assert _is_vague("my computer is broken") is True
     assert _is_vague("Salesforce has been loading slowly since yesterday") is False
+
+
+@pytest.mark.unit
+def test_is_meta_intent():
+    assert _is_meta_intent("Who are you") is True
+    assert _is_meta_intent("what can you do?") is True
+    assert _is_meta_intent("Hello!") is True
+    assert _is_meta_intent("你是谁") is True
+    assert _is_meta_intent("Hello, my VPN keeps disconnecting") is False
+    assert _is_meta_intent("My computer is broken. Help me.") is False
+
+
+@pytest.mark.unit
+def test_meta_intent_returns_intro():
+    from src.agent.graph import run_turn
+
+    state = run_turn("Who are you", employee_id="emp-001")
+    assert state["decision"] == Decision.RESOLVE.value
+    assert INTRO_REPLY in state["assistant_reply"]
+    assert state.get("tool_calls") in (None, [])
 
 
 @pytest.mark.unit

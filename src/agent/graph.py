@@ -48,6 +48,7 @@ def build_graph():
         route_after_intake,
         {
             "clarify": "clarify",
+            "respond": "respond",
             "investigate": "investigate",
             "investigate_password": "investigate_password",
             "investigate_software": "investigate_software",

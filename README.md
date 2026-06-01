@@ -69,7 +69,6 @@ src/data/
 ## 快速开始
 
 ```bash
-cd yaoming-test
 uv venv --python 3.12 && source .venv/bin/activate
 uv pip install -e ".[dev]"
 cp .env.example .env   # 可选：配置 GEMINI_API_KEY 用于 LLM 路径

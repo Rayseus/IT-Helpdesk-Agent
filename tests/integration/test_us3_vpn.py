@@ -11,6 +11,7 @@ from src.agent.graph import run_turn
 from src.agent.vpn_handlers import (
     apply_vpn_rules,
     prefetch_vpn_tools,
+    self_service_exhausted,
     vpn_persist_detected,
 )
 from src.models.schemas import Decision
@@ -107,3 +108,30 @@ def test_vpn_rules_maintenance_window():
     assert decision == Decision.RESOLVE.value
     assert team is None
     assert "maintenance" in reply.lower()
+
+
+@pytest.mark.integration
+def test_us3_vpn_multiturn_self_service_then_escalate():
+    """Bonus E: maintenance guidance first, escalate after self-service fails."""
+    turn1 = "GlobalProtect VPN disconnects frequently when I'm on Wi-Fi at home."
+    state = run_turn(turn1, employee_id="emp-001")
+    assert state["decision"] == Decision.RESOLVE.value
+    assert "maintenance" in (state.get("assistant_reply") or "").lower()
+
+    turn2 = (
+        "I tried everything — updated the client, rebooted router, "
+        "still disconnecting every 15 minutes."
+    )
+    state = run_turn(turn2, state=state)
+    assert state["decision"] == Decision.ESCALATE.value
+    assert state.get("escalation_package") is not None
+    reply = (state.get("assistant_reply") or "").lower()
+    assert "escalat" in reply
+    assert "diagnostic" in reply
+
+
+@pytest.mark.unit
+def test_self_service_exhausted():
+    msg = "I tried everything — updated the client, rebooted router, still disconnecting"
+    assert self_service_exhausted(msg) is True
+    assert vpn_persist_detected(msg) is True

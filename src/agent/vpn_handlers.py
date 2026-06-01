@@ -43,6 +43,24 @@ def extract_attempted_steps(message: str) -> list[str]:
     return steps or ["Self-service KB steps attempted via agent conversation"]
 
 
+def self_service_exhausted(message: str) -> bool:
+    """User reports they already tried self-service / runbook steps."""
+    lower = message.lower()
+    if any(
+        re.search(p, lower)
+        for p in [
+            r"tried everything",
+            r"nothing (helped|works)",
+            r"no luck",
+            r"after (all|these) steps",
+        ]
+    ):
+        return True
+    return extract_attempted_steps(message) != [
+        "Self-service KB steps attempted via agent conversation"
+    ]
+
+
 def prefetch_vpn_tools(
     employee_id: str | None,
     query: str,
@@ -115,8 +133,11 @@ def apply_vpn_rules(
     kb_block = _kb_runbook_block(articles)
 
     attempted = extract_attempted_steps(user_message)
+    persist = vpn_persist_detected(user_message)
+    exhausted = self_service_exhausted(user_message)
 
-    if vpn_persist_detected(user_message) and health != "maintenance":
+    # Escalate when issue persists after self-service, even during gateway maintenance.
+    if persist and (health != "maintenance" or exhausted):
         diagnostic_lines = [
             f"Employee: {user_name}{device_note}",
             f"VPN gateway health: {health}",
