@@ -18,16 +18,14 @@ def merge_messages(existing: list[dict], new: list[dict]) -> list[dict]:
     return existing + new
 
 
-def merge_tool_calls(existing: list[dict], new: list[dict]) -> list[dict]:
-    return existing + new
-
-
 class GraphState(TypedDict, total=False):
     session_id: str
     employee_id: str | None
     messages: Annotated[list[dict[str, Any]], merge_messages]
     diagnosis: dict[str, Any]
-    tool_calls: Annotated[list[dict[str, Any]], merge_tool_calls]
+    # No reducer: each turn's investigate node replaces tool_calls wholesale,
+    # so prior turns' tool calls don't accumulate into the next escalation package.
+    tool_calls: list[dict[str, Any]]
     pending_questions: list[str]
     decision: Literal["clarify", "resolve", "escalate"] | None
     escalation_package: dict[str, Any] | None

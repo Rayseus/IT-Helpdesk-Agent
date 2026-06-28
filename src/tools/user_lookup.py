@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from src.models.schemas import Employee
+from src.models.schemas import Employee, ToolResponse
 from src.paths import DATA_DIR
 from src.tools.base import fail, ok
 

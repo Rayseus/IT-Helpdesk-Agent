@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from src.models.schemas import ResolutionRecord
+from src.models.schemas import ResolutionRecord, ToolResponse
 from src.paths import DATA_DIR
 from src.tools.base import fail, load_json, ok
 

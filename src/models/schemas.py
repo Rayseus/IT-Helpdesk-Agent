@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 from enum import Enum
 from typing import Any, Literal
 
@@ -130,10 +130,14 @@ class PolicyRule(BaseModel):
     recommended_escalation_team: str = "IT Helpdesk"
 
 
+def _utcnow() -> datetime:
+    return datetime.now(UTC)
+
+
 class Message(BaseModel):
     role: MessageRole
     content: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=_utcnow)
 
 
 class Diagnosis(BaseModel):
@@ -142,13 +146,15 @@ class Diagnosis(BaseModel):
     category: str | None = None
     investigated: list[str] = Field(default_factory=list)
     remaining: list[str] = Field(default_factory=list)
+    systems: list[str] = Field(default_factory=list)
+    requested_actions: list[str] = Field(default_factory=list)
 
 
 class ToolCallRecord(BaseModel):
     tool_name: str
     input: dict[str, Any] = Field(default_factory=dict)
     output: dict[str, Any] = Field(default_factory=dict)
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=_utcnow)
     success: bool = True
     error: str | None = None
 

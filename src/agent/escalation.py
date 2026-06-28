@@ -10,7 +10,6 @@ from src.models.schemas import (
     EmployeeSnapshot,
     EscalationPackage,
     Priority,
-    ToolCallRecord,
 )
 
 
@@ -39,6 +38,13 @@ def _format_tool_result(call: dict[str, Any]) -> str:
                 f"{first.get('problem_summary', '')[:100]}"
             )
         return f"{name} ({status}): no matching history"
+
+    if name == "kb_search":
+        articles = data.get("articles") or []
+        if articles:
+            titles = ", ".join(a.get("title", a.get("id", "article")) for a in articles[:2])
+            return f"{name} ({status}): {len(articles)} article(s) — {titles}"
+        return f"{name} ({status}): no matching articles"
 
     if name == "user_lookup":
         return f"{name} ({status}): {data.get('name', '')} ({data.get('department', '')})"

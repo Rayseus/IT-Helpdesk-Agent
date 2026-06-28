@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.models.schemas import PolicyRule
+from src.models.schemas import PolicyRule, ToolResponse
 from src.paths import DATA_DIR
 from src.tools.base import fail, load_json, ok
 from src.tools.user_lookup import user_lookup

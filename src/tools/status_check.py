@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from src.models.schemas import ToolResponse
 from src.paths import DATA_DIR
 from src.tools.base import fail, load_json, ok
 

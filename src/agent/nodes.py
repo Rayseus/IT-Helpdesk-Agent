@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import re
-import uuid
 from typing import Any
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
@@ -93,9 +92,17 @@ def get_llm():
     )
 
 
+def _kw_hit(keyword: str, text: str) -> bool:
+    # Word-boundary match so short keywords (e.g. "app") don't match inside
+    # unrelated words like "happens" / "apply".
+    return re.search(rf"\b{re.escape(keyword)}\b", text) is not None
+
+
 def _detect_category(text: str) -> str | None:
     lower = text.lower()
-    scores = {cat: sum(1 for kw in kws if kw in lower) for cat, kws in CATEGORY_KEYWORDS.items()}
+    scores = {
+        cat: sum(1 for kw in kws if _kw_hit(kw, lower)) for cat, kws in CATEGORY_KEYWORDS.items()
+    }
     if any(w in lower for w in ["jenkins", "pipeline", "tableau"]) and scores.get("complex", 0) > 0:
         return "complex"
     best = max(scores, key=scores.get)
@@ -125,6 +132,9 @@ def intake_node(state: GraphState) -> dict[str, Any]:
         # Reset per-turn routing so a prior clarify does not stick on the next message.
         "decision": None,
         "pending_questions": [],
+        # Reset per-turn tool calls so prior turns don't pollute this turn's
+        # display / escalation package (tool_calls has no accumulating reducer).
+        "tool_calls": [],
     }
 
     category = _detect_category(user_msg)

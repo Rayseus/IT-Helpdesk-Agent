@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import uuid
+from functools import lru_cache
 
 from langgraph.graph import END, START, StateGraph
 
@@ -75,6 +76,12 @@ def build_graph():
     return graph.compile()
 
 
+@lru_cache(maxsize=1)
+def get_compiled_graph():
+    """Compiled graph is stateless (state is passed per invoke), so reuse it."""
+    return build_graph()
+
+
 def run_turn(
     user_message: str,
     *,
@@ -83,7 +90,7 @@ def run_turn(
     state: GraphState | None = None,
 ) -> GraphState:
     configure_logging()
-    app = build_graph()
+    app = get_compiled_graph()
 
     if state is None:
         state = make_initial_state(session_id or str(uuid.uuid4()), employee_id)
